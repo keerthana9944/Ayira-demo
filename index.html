@@ -1,9 +1,1525 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My GitHub Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYIRA - PCOS Early Detection & Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #5a67d8;
+            --secondary-color: #8e9efc;
+            --accent-color: #f7fafc;
+            --text-color: #2d3748;
+            --light-text: #718096;
+            --border-color: #e2e8f0;
+            --success-color: #48bb78;
+            --warning-color: #f6ad55;
+            --danger-color: #fc8181;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            color: var(--primary-color);
+        }
+
+        nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* Main Content Styles */
+        main {
+            padding: 30px 0;
+            min-height: calc(100vh - 80px);
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Styles */
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .dashboard-header p {
+            font-size: 18px;
+            color: var(--light-text);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(90, 103, 216, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .card-icon i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .card-content {
+            font-size: 16px;
+            color: var(--light-text);
+        }
+
+        .metric-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--light-text);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary-color);
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Symptom Tracker Styles */
+        .symptom-form {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input {
+            margin-right: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #434190;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #7d8fe8;
+        }
+
+        /* Hormone Tracker Styles */
+        .chart-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chart-control {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chart-control.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .chart-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: var(--accent-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light-text);
+            font-size: 18px;
+            background-image: url('https://picsum.photos/seed/hormone-tracking-chart/600/300.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .chart-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+        }
+
+        .chart-text {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+
+        /* AI Chat Interface Styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-header i {
+            margin-right: 10px;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-container {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 16px;
+        }
+
+        .chat-send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-send-btn:hover {
+            background-color: #434190;
+        }
+
+        /* Education Section Styles */
+        .education-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .education-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .education-card-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .education-card-content {
+            padding: 20px;
+        }
+
+        .education-card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .education-card-text {
+            font-size: 14px;
+            color: var(--light-text);
+            margin-bottom: 15px;
+        }
+
+        .education-card-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .education-card-link:hover {
+            transform: translateX(5px);
+        }
+
+        .education-card-link i {
+            margin-left: 5px;
+        }
+
+        /* Recommendations Section */
+        .recommendations-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recommendations-tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .recommendations-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .recommendations-content {
+            display: none;
+        }
+
+        .recommendations-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recommendation-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .recommendation-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(90, 103, 216, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .recommendation-icon i {
+            font-size: 20px;
+            color: var(--primary-color);
+        }
+
+        .recommendation-content {
+            flex-grow: 1;
+        }
+
+        .recommendation-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .recommendation-desc {
+            font-size: 16px;
+            color: var(--light-text);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 15px;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-controls {
+                flex-wrap: wrap;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello, this is my first GitHub Page!</h1>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="material-icons">favorite</i>
+                    AYIRA
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-section="dashboard">Dashboard</a></li>
+                        <li><a href="#" class="nav-link" data-section="symptoms">Symptom Tracker</a></li>
+                        <li><a href="#" class="nav-link" data-section="hormones">Hormone Tracker</a></li>
+                        <li><a href="#" class="nav-link" data-section="ai-support">AI Support</a></li>
+                        <li><a href="#" class="nav-link" data-section="education">Education</a></li>
+                        <li><a href="#" class="nav-link" data-section="recommendations">Recommendations</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="dashboard-header">
+                    <h1>Welcome to AYIRA</h1>
+                    <p>Your comprehensive PCOS early detection and management platform</p>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">calendar_today</i>
+                            </div>
+                            <h3 class="card-title">Menstrual Cycle</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">28</div>
+                            <div class="metric-label">Days since last period</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 75%;"></div>
+                            </div>
+                            <p>Next period expected in 7 days</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">monitor_heart</i>
+                            </div>
+                            <h3 class="card-title">Health Score</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">78%</div>
+                            <div class="metric-label">Overall wellness</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%;"></div>
+                            </div>
+                            <p>Based on recent symptom tracking</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">science</i>
+                            </div>
+                            <h3 class="card-title">Hormone Balance</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">Moderate</div>
+                            <div class="metric-label">Androgen levels</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                            <p>Slightly elevated testosterone detected</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">trending_up</i>
+                            </div>
+                            <h3 class="card-title">PCOS Risk</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">Medium</div>
+                            <div class="metric-label">Risk assessment</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%;"></div>
+                            </div>
+                            <p>Based on symptoms and biomarkers</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">psychology</i>
+                            </div>
+                            <h3 class="card-title">Mental Wellness</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">Good</div>
+                            <div class="metric-label">Mood tracking</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%;"></div>
+                            </div>
+                            <p>Mood stability improved this week</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">fitness_center</i>
+                            </div>
+                            <h3 class="card-title">Activity Level</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">4/7</div>
+                            <div class="metric-label">Days exercised this week</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 57%;"></div>
+                            </div>
+                            <p>Try to increase to 5 days next week</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="material-icons">notifications</i>
+                        </div>
+                        <h3 class="card-title">Recent Updates</h3>
+                    </div>
+                    <div class="card-content">
+                        <ul>
+                            <li>Your hormone test results are ready for review</li>
+                            <li>New personalized exercise plan available</li>
+                            <li>Reminder: Schedule follow-up appointment with your doctor</li>
+                            <li>Community support group meeting tomorrow at 6 PM</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Symptom Tracker Section -->
+            <section id="symptoms" class="section">
+                <div class="dashboard-header">
+                    <h1>Symptom Tracker</h1>
+                    <p>Monitor your symptoms to help detect PCOS early</p>
+                </div>
+
+                <div class="symptom-form">
+                    <h3>Today's Symptoms</h3>
+                    <form id="symptomForm">
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Check all symptoms you're experiencing today:</label>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="irregular-periods" name="symptoms" value="irregular-periods">
+                                    <label for="irregular-periods">Irregular Periods</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="excessive-hair" name="symptoms" value="excessive-hair">
+                                    <label for="excessive-hair">Excessive Hair Growth</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="acne" name="symptoms" value="acne">
+                                    <label for="acne">Acne</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="weight-gain" name="symptoms" value="weight-gain">
+                                    <label for="weight-gain">Weight Gain</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="hair-thinning" name="symptoms" value="hair-thinning">
+                                    <label for="hair-thinning">Hair Thinning</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="mood-swings" name="symptoms" value="mood-swings">
+                                    <label for="mood-swings">Mood Swings</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="fatigue" name="symptoms" value="fatigue">
+                                    <label for="fatigue">Fatigue</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="sleep-issues" name="symptoms" value="sleep-issues">
+                                    <label for="sleep-issues">Sleep Issues</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="severity">Overall Symptom Severity (1-10)</label>
+                            <input type="range" id="severity" name="severity" min="1" max="10" value="5" class="form-control">
+                            <div class="severity-display">Severity: 5</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="notes">Additional Notes</label>
+                            <textarea id="notes" name="notes" rows="4" class="form-control" placeholder="Add any additional notes about your symptoms today..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn">Save Symptoms</button>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="material-icons">history</i>
+                        </div>
+                        <h3 class="card-title">Symptom History</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="chart-placeholder">
+                            <div class="chart-text">
+                                <h3>Symptom Tracking History</h3>
+                                <p>Your symptoms over the past 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hormone Tracker Section -->
+            <section id="hormones" class="section">
+                <div class="dashboard-header">
+                    <h1>Hormone Tracker</h1>
+                    <p>Monitor your hormone levels to detect patterns and changes</p>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Hormone Levels</h3>
+                        <div class="chart-controls">
+                            <button class="chart-control active" data-hormone="all">All</button>
+                            <button class="chart-control" data-hormone="lh">LH</button>
+                            <button class="chart-control" data-hormone="fsh">FSH</button>
+                            <button class="chart-control" data-hormone="testosterone">Testosterone</button>
+                            <button class="chart-control" data-hormone="amh">AMH</button>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <div class="chart-text">
+                            <h3>Hormone Level Visualization</h3>
+                            <p>Track your hormone levels over time</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">trending_up</i>
+                            </div>
+                            <h3 class="card-title">LH/FSH Ratio</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">2.3:1</div>
+                            <div class="metric-label">Current ratio</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%;"></div>
+                            </div>
+                            <p>Slightly elevated ratio (normal is < 2:1)</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">science</i>
+                            </div>
+                            <h3 class="card-title">Testosterone</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">85 ng/dL</div>
+                            <div class="metric-label">Total testosterone</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%;"></div>
+                            </div>
+                            <p>Moderately elevated (normal: 10-70 ng/dL)</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="material-icons">egg</i>
+                            </div>
+                            <h3 class="card-title">AMH</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="metric-value">6.2 ng/mL</div>
+                            <div class="metric-label">Anti-Müllerian Hormone</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%;"></div>
+                            </div>
+                            <p>Elevated (normal: 1-4 ng/mL)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="material-icons">add_circle</i>
+                        </div>
+                        <h3 class="card-title">Add New Test Results</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="hormoneForm">
+                            <div class="dashboard-grid">
+                                <div class="form-group">
+                                    <label for="test-date">Test Date</label>
+                                    <input type="date" id="test-date" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lh-value">LH (mIU/mL)</label>
+                                    <input type="number" id="lh-value" class="form-control" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fsh-value">FSH (mIU/mL)</label>
+                                    <input type="number" id="fsh-value" class="form-control" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="testosterone-value">Testosterone (ng/dL)</label>
+                                    <input type="number" id="testosterone-value" class="form-control" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="amh-value">AMH (ng/mL)</label>
+                                    <input type="number" id="amh-value" class="form-control" step="0.1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="dheas-value">DHEAS (μg/dL)</label>
+                                    <input type="number" id="dheas-value" class="form-control" step="0.1">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn">Save Test Results</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Support Section -->
+            <section id="ai-support" class="section">
+                <div class="dashboard-header">
+                    <h1>AI Support</h1>
+                    <p>Get personalized support and guidance from our AI assistant</p>
+                </div>
+
+                <div class="chat-container">
+                    <div class="chat-header">
+                        <i class="material-icons">psychology</i>
+                        <span>AYIRA AI Assistant</span>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message ai">
+                            Hello! I'm your AYIRA AI assistant. I'm here to provide support and answer your questions about PCOS, symptoms, and management strategies. How can I help you today?
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Type your message here...">
+                        <button class="chat-send-btn" id="chatSendBtn">
+                            <i class="material-icons">send</i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="material-icons">lightbulb</i>
+                        </div>
+                        <h3 class="card-title">Suggested Questions</h3>
+                    </div>
+                    <div class="card-content">
+                        <div class="dashboard-grid">
+                            <div class="suggested-question" onclick="askQuestion('What are the early signs of PCOS?')">
+                                <p>What are the early signs of PCOS?</p>
+                            </div>
+                            <div class="suggested-question" onclick="askQuestion('How can I manage PCOS symptoms naturally?')">
+                                <p>How can I manage PCOS symptoms naturally?</p>
+                            </div>
+                            <div class="suggested-question" onclick="askQuestion('What diet is recommended for PCOS?')">
+                                <p>What diet is recommended for PCOS?</p>
+                            </div>
+                            <div class="suggested-question" onclick="askQuestion('How does PCOS affect fertility?')">
+                                <p>How does PCOS affect fertility?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" class="section">
+                <div class="dashboard-header">
+                    <h1>Education Resources</h1>
+                    <p>Learn more about PCOS and how to manage it effectively</p>
+                </div>
+
+                <div class="education-grid">
+                    <div class="education-card">
+                        <div class="education-card-image" style="background-image: url('https://picsum.photos/seed/pcos-education/400/200.jpg');"></div>
+                        <div class="education-card-content">
+                            <h3 class="education-card-title">Understanding PCOS</h3>
+                            <p class="education-card-text">Learn about the causes, symptoms, and long-term effects of Polycystic Ovary Syndrome.</p>
+                            <a href="#" class="education-card-link">Read More <i class="material-icons">arrow_forward</i></a>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-card-image" style="background-image: url('https://picsum.photos/seed/pcos-diagnosis/400/200.jpg');"></div>
+                        <div class="education-card-content">
+                            <h3 class="education-card-title">Diagnosis Process</h3>
+                            <p class="education-card-text">Understand how PCOS is diagnosed through symptoms, blood tests, and ultrasound.</p>
+                            <a href="#" class="education-card-link">Read More <i class="material-icons">arrow_forward</i></a>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-card-image" style="background-image: url('https://picsum.photos/seed/pcos-treatment/400/200.jpg');"></div>
+                        <div class="education-card-content">
+                            <h3 class="education-card-title">Treatment Options</h3>
+                            <p class="education-card-text">Explore medical treatments, lifestyle changes, and alternative therapies for PCOS.</p>
+                            <a href="#" class="education-card-link">Read More <i class="material-icons">arrow_forward</i></a>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-card-image" style="background-image: url('https://picsum.photos/seed/pcos-diet/400/200.jpg');"></div>
+                        <div class="education-card-content">
+                            <h3 class="education-card-title">Nutrition Guide</h3>
+                            <p class="education-card-text">Discover dietary recommendations and meal plans that can help manage PCOS symptoms.</p>
+                            <a href="#" class="education-card-link">Read More <i class="material-icons">arrow_forward</i></a>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-card-image" style="background-image: url('https://picsum.photos/seed/pcos-exercise/400/200.jpg');"></div>
+                        <div class="education-card-content">
+                            <h3 class="education-card-title">Exercise & Fitness</h3>
+                            <p class="education-card-text">Learn about exercise routines specifically designed to help with PCOS management.</p>
+                            <a href="#" class="education-card-link">Read More <i class="material-icons">arrow_forward</i></a>
+                        </div>
+                    </div>
+
+                    <div class="education-card">
+                        <div class="education-card-image" style="background-image: url('https://picsum.photos/seed/pcos-fertility/400/200.jpg');"></div>
+                        <div class="education-card-content">
+                            <h3 class="education-card-title">Fertility & PCOS</h3>
+                            <p class="education-card-text">Understand how PCOS affects fertility and what options are available for family planning.</p>
+                            <a href="#" class="education-card-link">Read More <i class="material-icons">arrow_forward</i></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recommendations Section -->
+            <section id="recommendations" class="section">
+                <div class="dashboard-header">
+                    <h1>Personalized Recommendations</h1>
+                    <p>Tailored advice based on your symptoms and health data</p>
+                </div>
+
+                <div class="recommendations-tabs">
+                    <button class="recommendations-tab active" data-tab="diet">Diet</button>
+                    <button class="recommendations-tab" data-tab="exercise">Exercise</button>
+                    <button class="recommendations-tab" data-tab="lifestyle">Lifestyle</button>
+                    <button class="recommendations-tab" data-tab="medical">Medical</button>
+                </div>
+
+                <div class="recommendations-content active" id="diet">
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">restaurant</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Increase Fiber Intake</h3>
+                            <p class="recommendation-desc">Add more high-fiber foods like vegetables, fruits, and whole grains to help manage blood sugar levels and improve insulin sensitivity.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">opacity</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Stay Hydrated</h3>
+                            <p class="recommendation-desc">Drink at least 8 glasses of water daily to help flush toxins and maintain proper metabolic function.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">no_food</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Limit Processed Foods</h3>
+                            <p class="recommendation-desc">Reduce intake of processed foods, refined carbohydrates, and added sugars to help manage insulin resistance.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">egg_alt</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Include Lean Proteins</h3>
+                            <p class="recommendation-desc">Incorporate lean protein sources like chicken, fish, tofu, and legumes to help stabilize blood sugar levels.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations-content" id="exercise">
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">directions_run</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Cardiovascular Exercise</h3>
+                            <p class="recommendation-desc">Aim for 150 minutes of moderate-intensity cardio per week to improve insulin sensitivity and help with weight management.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">fitness_center</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Strength Training</h3>
+                            <p class="recommendation-desc">Include 2-3 strength training sessions per week to build muscle mass, which can help improve insulin sensitivity.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">self_improvement</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Yoga and Stretching</h3>
+                            <p class="recommendation-desc">Practice yoga or stretching exercises regularly to reduce stress levels, which can help balance hormones.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations-content" id="lifestyle">
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">nightlight</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Prioritize Sleep</h3>
+                            <p class="recommendation-desc">Aim for 7-9 hours of quality sleep per night to help regulate hormones and improve overall health.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">spa</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Stress Management</h3>
+                            <p class="recommendation-desc">Practice stress-reducing activities like meditation, deep breathing, or mindfulness to help balance cortisol levels.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">monitor_weight</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Maintain Healthy Weight</h3>
+                            <p class="recommendation-desc">Even a 5-10% weight reduction can significantly improve PCOS symptoms and hormonal balance.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations-content" id="medical">
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">medication</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Medication Options</h3>
+                            <p class="recommendation-desc">Discuss with your doctor about medications like metformin for insulin resistance or birth control pills for hormone regulation.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">calendar_month</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Regular Check-ups</h3>
+                            <p class="recommendation-desc">Schedule regular appointments with your healthcare provider to monitor your condition and adjust treatment as needed.</p>
+                        </div>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <div class="recommendation-icon">
+                            <i class="material-icons">biotech</i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3 class="recommendation-title">Hormone Testing</h3>
+                            <p class="recommendation-desc">Get regular hormone tests to track your progress and ensure your treatment plan is effective.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>AYIRA</h3>
+                    <p>Your comprehensive PCOS early detection and management platform</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="#">About PCOS</a></li>
+                        <li><a href="#">Symptoms</a></li>
+                        <li><a href="#">Diagnosis</a></li>
+                        <li><a href="#">Treatment</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community Forum</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 AYIRA. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            
+            // Set today's date as default in forms
+            const today = new Date().toISOString().split('T')[0];
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                input.value = today;
+            });
+            
+            // Navigation click handlers
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and sections
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked link and corresponding section
+                    this.classList.add('active');
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+            
+            // Symptom form submission
+            const symptomForm = document.getElementById('symptomForm');
+            if (symptomForm) {
+                symptomForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(this);
+                    const symptoms = [];
+                    const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+                    
+                    checkboxes.forEach(checkbox => {
+                        symptoms.push(checkbox.value);
+                    });
+                    
+                    const severity = document.getElementById('severity').value;
+                    const notes = document.getElementById('notes').value;
+                    
+                    // Here you would normally send the data to a server
+                    // For this demo, we'll just show a success message
+                    alert('Symptoms saved successfully!');
+                    
+                    // Reset form
+                    this.reset();
+                    document.getElementById('severity').value = 5;
+                    document.querySelector('.severity-display').textContent = 'Severity: 5';
+                    dateInputs.forEach(input => {
+                        input.value = today;
+                    });
+                });
+            }
+            
+            // Severity slider update
+            const severitySlider = document.getElementById('severity');
+            if (severitySlider) {
+                severitySlider.addEventListener('input', function() {
+                    document.querySelector('.severity-display').textContent = `Severity: ${this.value}`;
+                });
+            }
+            
+            // Hormone form submission
+            const hormoneForm = document.getElementById('hormoneForm');
+            if (hormoneForm) {
+                hormoneForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(this);
+                    
+                    // Here you would normally send the data to a server
+                    // For this demo, we'll just show a success message
+                    alert('Hormone test results saved successfully!');
+                    
+                    // Reset form
+                    this.reset();
+                    dateInputs.forEach(input => {
+                        input.value = today;
+                    });
+                });
+            }
+            
+            // Chart control buttons
+            const chartControls = document.querySelectorAll('.chart-control');
+            chartControls.forEach(control => {
+                control.addEventListener('click', function() {
+                    // Remove active class from all controls
+                    chartControls.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked control
+                    this.classList.add('active');
+                    
+                    // Here you would normally update the chart based on the selected hormone
+                    // For this demo, we'll just log the selection
+                    console.log('Selected hormone:', this.getAttribute('data-hormone'));
+                });
+            });
+            
+            // Recommendations tabs
+            const recommendationsTabs = document.querySelectorAll('.recommendations-tab');
+            const recommendationsContents = document.querySelectorAll('.recommendations-content');
+            
+            recommendationsTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    recommendationsTabs.forEach(t => t.classList.remove('active'));
+                    recommendationsContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Chat functionality
+            const chatInput = document.getElementById('chatInput');
+            const chatSendBtn = document.getElementById('chatSendBtn');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (message) {
+                    // Add user message to chat
+                    const userMessage = document.createElement('div');
+                    userMessage.className = 'message user';
+                    userMessage.textContent = message;
+                    chatMessages.appendChild(userMessage);
+                    
+                    // Clear input
+                    chatInput.value = '';
+                    
+                    // Simulate AI response
+                    setTimeout(() => {
+                        const aiMessage = document.createElement('div');
+                        aiMessage.className = 'message ai';
+                        
+                        // Simple response logic based on keywords
+                        if (message.toLowerCase().includes('symptom')) {
+                            aiMessage.textContent = 'Common symptoms of PCOS include irregular periods, excessive hair growth, acne, and weight gain. Tracking these symptoms regularly can help with early detection.';
+                        } else if (message.toLowerCase().includes('diet')) {
+                            aiMessage.textContent = 'A balanced diet rich in fiber, lean proteins, and low-glycemic foods can help manage PCOS symptoms. Limiting processed foods and added sugars is also beneficial.';
+                        } else if (message.toLowerCase().includes('exercise')) {
+                            aiMessage.textContent = 'Regular exercise, including both cardiovascular and strength training, can improve insulin sensitivity and help manage PCOS symptoms. Aim for at least 150 minutes of moderate activity per week.';
+                        } else if (message.toLowerCase().includes('treatment')) {
+                            aiMessage.textContent = 'Treatment for PCOS often involves a combination of lifestyle changes, medication, and sometimes hormonal therapy. It\'s important to work with your healthcare provider to develop a personalized treatment plan.';
+                        } else {
+                            aiMessage.textContent = 'Thank you for your question. Based on your input, I recommend tracking your symptoms regularly and discussing any concerns with your healthcare provider. Is there something specific about PCOS you\'d like to know more about?';
+                        }
+                        
+                        chatMessages.appendChild(aiMessage);
+                        
+                        // Scroll to bottom of chat
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }, 1000);
+                    
+                    // Scroll to bottom of chat
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }
+            
+            if (chatSendBtn) {
+                chatSendBtn.addEventListener('click', sendMessage);
+            }
+            
+            if (chatInput) {
+                chatInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        sendMessage();
+                    }
+                });
+            }
+            
+            // Suggested questions click handler
+            window.askQuestion = function(question) {
+                chatInput.value = question;
+                sendMessage();
+            };
+        });
+    </script>
 </body>
 </html>
